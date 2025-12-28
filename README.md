@@ -28,3 +28,22 @@ Desarrollar una aplicación web que permita a los negocios gestionar de manera o
 ---
 
 ## 📁 Estructura del proyecto
+
+schedulecontrol/
+│
+├── app/
+│   ├── init.py
+│
+├── venv/
+├── run.py
+├── requirements.txt
+└── README.m
+
+### Descripción de carpetas y archivos
+
+- **app/**: Contiene la lógica principal de la aplicación Flask.
+- **app/__init__.py**: Inicializa la aplicación y define la configuración base.
+- **venv/**: Entorno virtual que contiene las dependencias del proyecto.
+- **run.py**: Punto de entrada para ejecutar la aplicación.
+- **requirements.txt**: Lista de dependencias necesarias para ejecutar el proyecto.
+- **README.md**: Documentación general del proyecto.
