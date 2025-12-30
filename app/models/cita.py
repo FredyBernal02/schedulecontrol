@@ -24,6 +24,6 @@ class Cita(db.Model):
 
     id_negocio = db.Column(
         db.Integer,
-        db.ForeignKey('negocio.id_negocio'),
+        db.ForeignKey('negocios.id_negocio'),
         nullable=False
     )

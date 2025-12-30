@@ -1,7 +1,7 @@
 from app import db
 
 class Usuario(db.Model):
-    __tablename__='usuario'
+    __tablename__='usuarios'
 
     id_usuario = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
@@ -11,6 +11,6 @@ class Usuario(db.Model):
 
     id_negocio = db.Column(
         db.Integer,
-        db.ForeignKey('negocio.id_negocio'),
+        db.ForeignKey('negocios.id_negocio'),
         nullable=False
     )

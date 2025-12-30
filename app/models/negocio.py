@@ -1,7 +1,7 @@
 from app import db
 
 class Negocio(db.Model):
-    __tablename__= 'negocio'
+    __tablename__= 'negocios'
 
     id_negocio = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
