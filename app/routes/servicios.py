@@ -35,3 +35,21 @@ def listar_servicios():
         })
     
     return jsonify(resultado), 200
+
+@servicios_bp.route('/servicios/<int:id_servicio>', methods=['PUT'])
+def actualizar_servicio(id_servicio):
+    data = request.get_json()
+
+    servicio = Servicio.query.get(id_servicio)
+
+    if not servicio:
+        return jsonify({'mensaje: Servicio no encontrado'}), 404
+    
+    servicio.nombre = data.get('nombre', servicio.nombre)
+    servicio.duracion = data.get("duracion", servicio.duracion)
+    servicio.precio = data.get('precio', servicio.precio)
+
+    db.session.commit()
+
+    return jsonify({'mensaje': 'Servicio actualizado correctamente'}), 200 
+
