@@ -53,3 +53,15 @@ def actualizar_servicio(id_servicio):
 
     return jsonify({'mensaje': 'Servicio actualizado correctamente'}), 200 
 
+@servicios_bp.route('/servicios/<int:id_servicio>', methods=['DELETE'])
+def eliminar_servicio(id_servicio):
+    servicio = Servicio.query.get(id_servicio)
+
+    if not servicio:
+        return jsonify({'mensaje': 'Servicio no encontrado'}), 404
+    
+    db.session.delete(servicio)
+    db.session.commit()
+
+    return jsonify({'mensaje': 'Servicio eliminado correctamente'}), 200
+
