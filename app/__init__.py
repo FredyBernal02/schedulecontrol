@@ -17,4 +17,7 @@ def create_app():
     from app.routes.servicios import servicios_bp
     app.register_blueprint(servicios_bp)
 
+    from app.routes.citas import citas_bp
+    app.register_blueprint(citas_bp)
+
     return app
