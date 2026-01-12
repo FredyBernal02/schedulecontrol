@@ -23,3 +23,22 @@ def crear_cita():
     db.session.commit()
 
     return jsonify({'mensaje': 'Cita creada correctamente'}), 201
+
+@citas_bp.route('/citas', methods=['GET'])
+def listar_citas():
+    citas = Cita.query.all()
+
+    resultado = []
+    for cita in citas:
+        resultado.append({
+            'id_cita': cita.id_cita,
+            "fecha": cita.fecha.isoformat(),
+            'hora_inicio': cita.hora_inicio.strftime('%H:%M'),
+            'hora_fin': cita.hora_fin.strftime('%H:%M'),
+            'estado': cita.estado,
+            'id_cliente': cita.id_cliente,
+            'id_servicio': cita.id_servicio,
+            'id_negocio': cita.id_negocio
+        })
+    
+    return jsonify(resultado), 200
