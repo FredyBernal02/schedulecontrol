@@ -42,3 +42,28 @@ def listar_citas():
         })
     
     return jsonify(resultado), 200
+
+@citas_bp.route('/citas/<int:id_cita>', methods=['PUT'])
+def actualizar_cita(id_cita):
+    data = request.get_json()
+
+    cita = Cita.query.get(id_cita)
+
+    if not cita:
+        return jsonify({'mensaje': 'Cita no encontrada'}), 404
+    
+    if 'fecha' in data:
+        cita.fecha = datetime.strptime(data['fecha'], '%Y-%m-%d').date()
+    
+    if 'hora_inicio' in data:
+        cita.hora_inicio = datetime.strptime(data['hora_inicio'], '%H:%M').time()
+
+    if 'hora_fin' in data:
+        cita.hora_fin = datetime.strptime(data['hora_fin'], '%H:%M').time()
+
+    if 'estado' in data:
+        cita.estado = data['estado']
+
+    db.session.commit()
+
+    return jsonify({'mensaje': 'Cita actualizada correctamente'}), 200
