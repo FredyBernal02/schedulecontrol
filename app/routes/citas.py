@@ -67,3 +67,15 @@ def actualizar_cita(id_cita):
     db.session.commit()
 
     return jsonify({'mensaje': 'Cita actualizada correctamente'}), 200
+
+@citas_bp.route('/citas/<int:id_cita>', methods=['DELETE'])
+def eliminar_cita(id_cita):
+    cita = Cita.query.get(id_cita)
+
+    if not cita:
+        return jsonify({'mensaje': 'Cita no encontrada'}), 404
+    
+    db.session.delete(cita)
+    db.session.commit()
+
+    return jsonify({'mensaje': 'Cita eliminada correctamente'}), 200
