@@ -2,12 +2,33 @@ from flask import Blueprint, request, jsonify
 from app import db
 from app.models.cita import Cita
 from datetime import datetime
+from sqlalchemy import and_
 
 citas_bp = Blueprint('citas', __name__)
 
 @citas_bp.route('/citas', methods=['POST'])
 def crear_cita():
     data = request.get_json()
+
+    # Convertir fecha y horas
+    fecha = datetime.strptime(data['fecha'], '%Y-%m-%d').date()
+    hora_inicio = datetime.strptime(data['hora_inicio'], '%H:%M').time()
+    hora_fin = datetime.strptime(data['hora_fin'], '%H:%M').time()
+
+    # Buscar citas que se crucen en el mismo negocio y fecha
+    cita_cruzada = Cita.query.filter(
+        Cita.id_negocio == data['id_negocio'],
+        Cita.fecha == fecha,
+        and_(
+            hora_inicio < Cita.hora_fin,
+            hora_fin > Cita.hora_inicio
+        )
+    ).first()
+
+    if cita_cruzada:
+        return jsonify({
+            'mensaje': 'Ya existe una cita en ese horario para este negocio'
+        }), 400
 
     cita = Cita(
         fecha=datetime.strptime(data['fecha'], '%Y-%m-%d').date(),
