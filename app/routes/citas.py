@@ -3,12 +3,24 @@ from app import db
 from app.models.cita import Cita
 from datetime import datetime
 from sqlalchemy import and_
+from app.models.negocio import Negocio
 
 citas_bp = Blueprint('citas', __name__)
 
 @citas_bp.route('/citas', methods=['POST'])
 def crear_cita():
     data = request.get_json()
+
+    negocio = Negocio.query.get(data['id_negocio'])
+
+    if not negocio:
+        return jsonify({'mensaje': 'Negocio no encontrado'}), 404
+    
+    # Validar horario de atencion
+    if hora_inicio < negocio.hora_apertura or hora_fin > negocio.hora_cierre:
+        return jsonify({
+            'mensaje': 'La cita está fuera del horario de atención del negocio'
+        }), 400
 
     # Convertir fecha y horas
     fecha = datetime.strptime(data['fecha'], '%Y-%m-%d').date()
