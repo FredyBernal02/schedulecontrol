@@ -14,6 +14,7 @@ Desarrollar una aplicación web que permita a los negocios gestionar de manera o
 - Duplicación de horarios
 - Falta de control sobre la agenda
 - Uso de métodos manuales como cuadernos o archivos dispersos
+- En esta etapa, el proyecto se enfoca en el desarrollo del backend, implementando la lógica de negocio y una API REST funcional.
 
 ---
 
