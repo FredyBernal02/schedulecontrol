@@ -1,14 +1,46 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #1f2937;
+    color: white;
+    padding: 15px 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Navegacion */
+nav {
+    margin-top: 10px;
 }
 
 nav a {
-    margin-right: 15px;
+    color: white;
     text-decoration: none;
+    margin-right: 15px;
     font-weight: bold;
 }
 
 nav a:hover {
     text-decoration: underline;
+}
+
+/* Contenido principal */
+main {
+    padding: 20px;
+}
+
+/* Footer */
+footer {
+    background-color: #e5e7eb;
+    text-align: center;
+    padding: 10px;
+    font-size: 14p;
 }
