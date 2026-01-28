@@ -1,13 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Panel principal</h2>
+<div class="page-header">
+    <h2>Panel principal</h2>
+    <p>Bienvenido a <strong>ScheduleControl</strong>, el sistema de gestión de citas.</p>
+</div>
 
-<p>Bienvenido al sistema de gestión de citas.</p>
+<div class="dashboard">
+    <div class="card">
+        <h3>👤 Clientes</h3>
+        <p>Gestiona los clientes del negocio.</p>
+        <a href="/clientes">Ir a clientes</a>
+    </div>
 
-<ul>
-    <li><a href="/clientes">Gestión de clientes</a></li>
-    <li><a href="/servicios">Gestión de servicios</a></li>
-    <li><a href="/citas">Gestión de citas</a></li>
-</ul>
+    <div class="card">
+        <h3>✂️ Servicios</h3>
+        <p>Administra los servicios ofrecidos.</p>
+        <a href="/servicios">Ir a servicios</a>
+    </div>
+
+    <div class="card">
+        <h3>📅 Citas</h3>
+        <p>Agenda y controla las citas.</p>
+        <a href="/citas">Ir a citas</a>
+    </div>
+
+</div>
 {% endblock %}
