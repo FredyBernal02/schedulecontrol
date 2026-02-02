@@ -2,32 +2,20 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>ScheduleControl</title>
+    <title>{% block title %}ScheduleControl{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header class="main-header">
-        <h1>ScheduleControl</h1>
-        <p class="subtitle">Sistema de gestión de turnos y citas</p>
-
-        <nav class="main-nav">
-            <a href="/">Inicio</a>
-            <a href="/clientes">Clientes</a>
-            <a href="/servicios">Servicios</a>
-            <a href="/citas">Citas</a>
-        </nav>
-    </header>
-
+   
+    {% include "partials/navbar.html" %}
 
     <main>
-        {% block content %}
-        {% endblock %}
+        <div>
+            {% block content %}{% endblock %}
+        </div>
     </main>
 
-    <footer>
-        <hr>
-        <p>SENA ADSO - Proyecto formativo</p>
-    </footer>
+    {% include "partials/footer.html" %}
     
 </body>
 </html>
