@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Crear negocio | ScheduleControl{% endblock %}
+
+{% block content %}
+<h2>Crear negocio</h2>
+
+<form method="POST" action="/negocios/nuevo" class="form">
+    <label>Nombre *</label>
+    <input type="text" name="nombre" required>
+
+    <label>Dirección</label>
+    <input type="text" name="direccion">
+
+    <label>Teléfono</label>
+    <input type="text" name="telefono">
+
+    <label>Hora apertura *</label>
+    <input type="time" name="hora_apertura" required>
+
+    <label>Hora cierre *</label>
+    <input type="time" name="hora_cierre" required>
+
+    <button type="submit" class="btn-primary">Guardar</button>
+    <a href="/negocios" class="btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

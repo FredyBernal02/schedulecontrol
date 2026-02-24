@@ -145,3 +145,54 @@ footer {
     box-shadow: 0 2px 6px rgba(0, 0, 0.08);
     text-align: center;
 }
+
+/* ---------- Formularios ---------- */
+.form {
+    .form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 650px;
+    margin: 20px auto; /* 🔥 Esto lo centra */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+}
+
+.form label {
+    display: block;
+    margin-top: 14px;
+    font-weight: bold;
+}
+
+.form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #cfd6e0;
+    border-radius: 8px;
+}
+
+/* Botones */
+.btn-secondary {
+    display: inline-block;
+    margin-left: 10px;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #e6e9ef;
+    color: #333;
+}
+.btn-secondary:hover {
+    background: #d7dbe3;
+}
+
+h2 {
+    text-align: center;
+}
+
+/* Responsive: en pantallas pequeñas se ve cómodo */
+@media (max-width: 600px) {
+    .form {
+        padding: 16px;
+    }
+}

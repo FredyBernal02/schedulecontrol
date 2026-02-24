@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for
 from app import db
 from app.models.negocio import Negocio
 from datetime import datetime
@@ -29,3 +29,31 @@ def crear_negocio():
     db.session.commit()
 
     return jsonify({'mensaje': 'Negocio creado correctamente'}), 201
+
+# RUTA FRONTEND (GET) - formulario
+@negocios_bp.route('/negocios/nuevo', methods=['GET'])
+def nuevo_negocio():
+    return render_template('negocios/crear.html')
+
+
+# RUTA FRONTEND (POST) - guardar desde formulario
+@negocios_bp.route('/negocios/nuevo', methods=['POST'])
+def crear_negocio_form():
+    nombre = request.form.get('nombre', '').strip()
+    direccion = request.form.get('direccion', '').strip()
+    telefono = request.form.get('telefono', '').strip()
+    hora_apertura = request.form.get('hora_apertura', '').strip()
+    hora_cierre = request.form.get('hora_cierre', '').strip()
+
+    negocio = Negocio(
+        nombre=nombre,
+        direccion=direccion or None,
+        telefono=telefono or None,
+        hora_apertura=datetime.strptime(hora_apertura, '%H:%M').time(),
+        hora_cierre=datetime.strptime(hora_cierre, '%H:%M').time()
+    )
+
+    db.session.add(negocio)
+    db.session.commit()
+
+    return redirect(url_for('negocios.listar_negocios'))
