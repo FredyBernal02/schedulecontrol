@@ -1,10 +1,20 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from app import db
 from app.models.negocio import Negocio
 from datetime import datetime
 
 negocios_bp = Blueprint('negocios', __name__)
 
+# RUTA FRONTEND (GET)
+@negocios_bp.route('/negocios', methods=['GET'])
+def listar_negocios():
+    negocios = Negocio.query.all()
+    return render_template(
+        'negocios/listar.html',
+        negocios=negocios
+    )
+
+# RUTA API (POST)
 @negocios_bp.route('/negocios', methods=['POST'])
 def crear_negocio():
     data = request.get_json()
