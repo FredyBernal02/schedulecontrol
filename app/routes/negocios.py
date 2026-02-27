@@ -17,18 +17,36 @@ def listar_negocios():
 # RUTA API (POST)
 @negocios_bp.route('/negocios', methods=['POST'])
 def crear_negocio():
-    data = request.get_json()
+    nombre = request.form['nombre']
+    direccion = request.form['direccion']
+    telefono = request.form['telefono']
+    hora_apertura = request.form['hora_apertura']
+    hora_cierre = request.form['hora_cierre']
+
+    hora_apertura_time = datetime.strptime(hora_apertura, '%H:%M').time()
+    hora_cierre_time = datetime.strptime(hora_cierre, '%H:%M').time()
+
+    # ✅ VALIDACIÓN: cierre debe ser mayor que apertura
+    if hora_cierre_time <= hora_apertura_time:
+        error = "La hora de cierre debe ser mayor que la hora de apertura"
+        return render_template(
+            "negocios/crear.html",
+            error=error,
+            form_data=request.form
+        ), 400
 
     negocio = Negocio(
-        nombre=data['nombre'],
-        hora_apertura=datetime.strptime(data['hora_apertura'], '%H:%M').time(),
-        hora_cierre=datetime.strptime(data['hora_cierre'], '%H:%M').time()
+        nombre=nombre,
+        direccion=direccion or None,
+        telefono=telefono or None,
+        hora_apertura=hora_apertura_time,
+        hora_cierre=hora_cierre_time
     )
 
     db.session.add(negocio)
     db.session.commit()
 
-    return jsonify({'mensaje': 'Negocio creado correctamente'}), 201
+    return redirect('/negocios')
 
 # RUTA FRONTEND (GET) - formulario
 @negocios_bp.route('/negocios/nuevo', methods=['GET'])
@@ -45,12 +63,23 @@ def crear_negocio_form():
     hora_apertura = request.form.get('hora_apertura', '').strip()
     hora_cierre = request.form.get('hora_cierre', '').strip()
 
+    hora_apertura_time = datetime.strptime(hora_apertura, '%H:%M').time()
+    hora_cierre_time = datetime.strptime(hora_cierre, '%H:%M').time()
+
+    if hora_cierre_time <= hora_apertura_time:
+        error = "La hora de cierre debe ser mayor que la hora de apertura"
+        return render_template(
+            "negocios/crear.html",
+            error=error,
+            form_data=request.form
+        ), 400
+
     negocio = Negocio(
         nombre=nombre,
         direccion=direccion or None,
         telefono=telefono or None,
-        hora_apertura=datetime.strptime(hora_apertura, '%H:%M').time(),
-        hora_cierre=datetime.strptime(hora_cierre, '%H:%M').time()
+        hora_apertura=hora_apertura_time,
+        hora_cierre=hora_cierre_time
     )
 
     db.session.add(negocio)

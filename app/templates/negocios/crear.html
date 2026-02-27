@@ -3,24 +3,49 @@
 
 {% block content %}
 <h2>Crear negocio</h2>
+{% if error %}
+  <div class="alert-error">
+    {{ error }}
+  </div>
+{% endif %}
 
 <form method="POST" action="/negocios/nuevo" class="form">
     <label>Nombre *</label>
-    <input type="text" name="nombre" required>
+    <input type="text" name="nombre" required value="{{ form_data.get('nombre','') if form_data else '' }}">
 
     <label>Dirección</label>
-    <input type="text" name="direccion">
+    <input type="text" name="direccion" value="{{ form_data.get('direccion','') if form_data else '' }}">
 
     <label>Teléfono</label>
-    <input type="text" name="telefono">
+    <input type="text" name="telefono" value="{{ form_data.get('telefono','') if form_data else '' }}">
 
-    <label>Hora apertura *</label>
-    <input type="time" name="hora_apertura" required>
+    <div class="form-group">
+      <label>Hora apertura *</label>
+      <select name="hora_apertura" required>
+        {% for h in range(0, 24) %}
+          {% set v1 = "%02d:00"|format(h) %}
+          {% set v2 = "%02d:30"|format(h) %}
+          <option value="{{ v1 }}" {% if form_data and form_data.get('hora_apertura') == v1 %}selected{% endif %}>{{ v1 }}</option>
+          <option value="{{ v2 }}" {% if form_data and form_data.get('hora_apertura') == v2 %}selected{% endif %}>{{ v2 }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-    <label>Hora cierre *</label>
-    <input type="time" name="hora_cierre" required>
+    <div class="form-group">
+        <label>Hora cierre *</label>
+        <select name="hora_cierre" required>
+          {% for h in range(0, 24) %}
+            {% set v1 = "%02d:00"|format(h) %}
+            {% set v2 = "%02d:30"|format(h) %}
+            <option value="{{ v1 }}" {% if form_data and form_data.get('hora_cierre') == v1 %}selected{% endif %}>{{ v1 }}</option>
+            <option value="{{ v2 }}" {% if form_data and form_data.get('hora_cierre') == v2 %}selected{% endif %}>{{ v2 }}</option>
+          {% endfor %}
+        </select>
+    </div>
 
-    <button type="submit" class="btn-primary">Guardar</button>
-    <a href="/negocios" class="btn-secondary">Cancelar</a>
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">Guardar</button>
+        <a href="/negocios" class="btn-secondary">Cancelar</a>
+    </div>
 </form>
 {% endblock %}
