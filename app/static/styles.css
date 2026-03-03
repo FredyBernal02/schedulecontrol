@@ -218,6 +218,28 @@ h2 {
     cursor: pointer;
 }
 
+.btn-primary {
+    background: #1f3a5f;
+    color: white;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: #162a44;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+    background: #d1d5db;
+    transform: translateY(-1px);
+}
+
 .form select {
     width: 100%;
     padding: 10px;
@@ -264,6 +286,22 @@ a.btn-primary {
     margin: 12px auto 18px;
     max-width: 650px;
     font-weight: 600;
+}
+
+.btn-danger {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  background: #c0392b;
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-danger:hover {
+  background: #9f2f24;
+  transform: translateY(-1px);
 }
 
 /* Responsive: en pantallas pequeñas se ve cómodo */

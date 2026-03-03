@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Editar negocio | ScheduleControl{% endblock %}
+
+{% block content %}
+<h2>Editar negocio</h2>
+
+{% if error %}
+  <p class="alert-error">{{ error }}</p>
+{% endif %}
+
+<form method="POST" class="form">
+  <label>Nombre *</label>
+  <input type="text" name="nombre" required value="{{ negocio.nombre }}">
+
+  <label>Dirección</label>
+  <input type="text" name="direccion" value="{{ negocio.direccion or '' }}">
+
+  <label>Teléfono</label>
+  <input type="text" name="telefono" value="{{ negocio.telefono or '' }}">
+
+  <div class="form-group">
+    <label>Hora apertura *</label>
+    <select name="hora_apertura" required>
+      {% for h in range(0, 24) %}
+        {% set t1 = "%02d:00"|format(h) %}
+        {% set t2 = "%02d:30"|format(h) %}
+        <option value="{{ t1 }}" {% if hora_apertura == t1 %}selected{% endif %}>{{ t1 }}</option>
+        <option value="{{ t2 }}" {% if hora_apertura == t2 %}selected{% endif %}>{{ t2 }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Hora cierre *</label>
+    <select name="hora_cierre" required>
+      {% for h in range(0, 24) %}
+        {% set t1 = "%02d:00"|format(h) %}
+        {% set t2 = "%02d:30"|format(h) %}
+        <option value="{{ t1 }}" {% if hora_cierre == t1 %}selected{% endif %}>{{ t1 }}</option>
+        <option value="{{ t2 }}" {% if hora_cierre == t2 %}selected{% endif %}>{{ t2 }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn-primary">Guardar cambios</button>
+    <a href="{{ url_for('negocios.listar_negocios') }}" class="btn-secondary">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

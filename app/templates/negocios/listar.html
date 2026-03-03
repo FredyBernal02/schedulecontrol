@@ -12,6 +12,7 @@
             <th>Dirección</th>
             <th>Teléfono</th>
             <th>Horario</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,21 @@
             <td>{{ negocio.telefono or "-" }}</td>
             <td>
                 {{ negocio.hora_apertura }} - {{ negocio.hora_cierre }}
+            </td>
+            <td>
+                <a class="btn-secondary"
+                        href="{{ url_for('negocios.editar_negocio', id_negocio=negocio.id_negocio) }}">
+                        Editar
+                </a>
+                
+                <form method="POST"
+                        action="{{ url_for('negocios.eliminar_negocio', id_negocio=negocio.id_negocio) }}"
+                        style="display:inline;">
+                    <button type="submit" class="btn-danger"
+                            onclick="return confirm('¿Seguro que deseas eliminar este negocio?');">
+                    Eliminar
+                    </button>
+                </form>
             </td>
         </tr>
         {% else %}
