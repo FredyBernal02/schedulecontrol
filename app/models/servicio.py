@@ -13,3 +13,5 @@ class Servicio(db.Model):
         db.ForeignKey('negocios.id_negocio'),
         nullable=False
     )
+
+    negocio = db.relationship('Negocio', backref=db.backref('servicios', lazy=True))

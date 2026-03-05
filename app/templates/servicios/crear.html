@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Crear servicio | ScheduleControl{% endblock %}
+
+{% block content %}
+<h2>Crear servicio</h2>
+
+<form method="POST" action="/servicios/nuevo" class="form">
+    <label>Nombre *</label>
+    <input type="text" name="nombre" required>
+
+    <label>Duración (min) *</label>
+    <input type="number" name="duracion" min="1" required>
+
+    <label>Precio *</label>
+    <input type="number" name="precio" step="0.01" min="0" required>
+
+    <label>Negocio *</label>
+    <select name="id_negocio" required>
+        {% for negocio in negocios %}
+            <option value="{{ negocio.id_negocio }}">{{ negocio.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">Guardar</button>
+        <a href="/servicios/listar" class="btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}
