@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Editar servicio</h2>
+
+<form method="POST" action="/servicios/{{ servicio.id_servicio }}/editar">
+
+    <label>Nombre</label>
+    <input type="text" name="nombre" value="{{ servicio.nombre }}" required>
+
+    <label>Duración (min)</label>
+    <input type="number" name="duracion" value="{{ servicio.duracion }}" required>
+
+    <label>Precio</label>
+    <input type="number" step="0.01" name="precio" value="{{ servicio.precio }}" required>
+
+    <label>Negocio</label>
+    <select name="id_negocio">
+
+        {% for negocio in negocios %}
+        <option value="{{ negocio.id_negocio }}"
+            {% if negocio.id_negocio == servicio.id_negocio %}
+                selected
+            {% endif %}
+        >
+            {{ negocio.nombre }}
+        </option>
+        {% endfor %}
+
+    </select>
+
+    <br><br>
+
+    <button type="submit" class="btn-primary">Guardar cambios</button>
+    <a href="/servicios/listar" class="btn-secondary">Cancelar</a>
+
+</form>
+
+{% endblock %}

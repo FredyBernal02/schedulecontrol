@@ -24,6 +24,9 @@
             <td>{{ servicio.precio }}</td>
             <td>{{ servicio.negocio.nombre }}</td>
             <td>
+                <a href="/servicios/{{ servicio.id_servicio }}/editar" class="btn-secondary">
+                Editar
+                </a>
                 <form action="{{ url_for('servicios.eliminar_servicio_web', id_servicio=servicio.id_servicio) }}" method="POST">
                     <button type="submit" class="btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este servicio?')">
                         Eliminar

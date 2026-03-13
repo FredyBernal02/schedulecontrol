@@ -39,7 +39,7 @@ def crear_servicio_form():
     return redirect(url_for('servicios.listar_servicios_front'))
 
 # ---------------------------
-# API JSON (lo que ya tenías)
+# API JSON 
 # ---------------------------
 
 @servicios_bp.route('/servicios', methods=['POST'])
@@ -108,4 +108,29 @@ def eliminar_servicio_web(id_servicio):
     servicio = Servicio.query.get_or_404(id_servicio)
     db.session.delete(servicio)
     db.session.commit()
+    return redirect(url_for('servicios.listar_servicios_front'))
+
+@servicios_bp.route('/servicios/<int:id_servicio>/editar', methods=['GET'])
+def editar_servicio(id_servicio):
+    servicio = Servicio.query.get_or_404(id_servicio)
+    negocios = Negocio.query.all()
+
+    return render_template(
+        'servicios/editar.html',
+        servicio=servicio,
+        negocios=negocios
+    )
+
+@servicios_bp.route('/servicios/<int:id_servicio>/editar', methods=['POST'])
+def actualizar_servicio_form(id_servicio):
+
+    servicio = Servicio.query.get_or_404(id_servicio)
+
+    servicio.nombre = request.form['nombre']
+    servicio.duracion = request.form['duracion']
+    servicio.precio = request.form['precio']
+    servicio.id_negocio = request.form['id_negocio']
+
+    db.session.commit()
+
     return redirect(url_for('servicios.listar_servicios_front'))
