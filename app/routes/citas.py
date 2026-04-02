@@ -1,9 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import render_template, Blueprint, request, jsonify, redirect, url_for
 from app import db
 from app.models.cita import Cita
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import and_
 from app.models.negocio import Negocio
+from app.models.cliente import Cliente
+from app.models.servicio import Servicio
+
 
 citas_bp = Blueprint('citas', __name__)
 
@@ -112,3 +115,50 @@ def eliminar_cita(id_cita):
     db.session.commit()
 
     return jsonify({'mensaje': 'Cita eliminada correctamente'}), 200
+
+@citas_bp.route('/citas/listar', methods=['GET'])
+def listar_citas_front():
+    citas = Cita.query.all()
+    return render_template('citas/listar.html', citas=citas)
+
+@citas_bp.route('/citas/nuevo', methods=['GET'])
+def nueva_cita():
+    clientes = Cliente.query.all()
+    servicios = Servicio.query.all()
+    negocios = Negocio.query.all()
+
+    return render_template(
+        'citas/crear.html',
+        clientes=clientes,
+        servicios=servicios,
+        negocios=negocios
+    )
+
+
+@citas_bp.route('/citas/nuevo', methods=['POST'])
+def crear_cita_front():
+    id_cliente = request.form.get('id_cliente')
+    id_servicio = request.form.get('id_servicio')
+    id_negocio = request.form.get('id_negocio')
+    fecha = request.form.get('fecha')
+    hora_inicio = request.form.get('hora')
+
+    servicio = Servicio.query.get(id_servicio)
+
+    hora_inicio_dt = datetime.strptime(hora_inicio, '%H:%M')
+    hora_fin_dt = hora_inicio_dt + timedelta(minutes=servicio.duracion)
+
+    cita = Cita(
+        id_cliente=id_cliente,
+        id_servicio=id_servicio,
+        id_negocio=id_negocio,
+        fecha=datetime.strptime(fecha, '%Y-%m-%d').date(),
+        hora_inicio=hora_inicio_dt.time(),
+        hora_fin=hora_fin_dt.time(),
+        estado='pendiente'
+    )
+
+    db.session.add(cita)
+    db.session.commit()
+
+    return redirect(url_for('citas.listar_citas_front'))

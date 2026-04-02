@@ -27,3 +27,7 @@ class Cita(db.Model):
         db.ForeignKey('negocios.id_negocio'),
         nullable=False
     )
+
+    cliente = db.relationship('Cliente', backref=db.backref('citas', lazy=True))
+    servicio = db.relationship('Servicio', backref=db.backref('citas', lazy=True))
+    negocio = db.relationship('Negocio', backref=db.backref('citas', lazy=True))
