@@ -10,6 +10,7 @@
             <th>Cliente</th>
             <th>Servicio</th>
             <th>Negocio</th>
+            <th>Acciones</th>
             <th>Fecha</th>
             <th>Hora</th>
         </tr>
@@ -22,7 +23,17 @@
             <td>{{ cita.servicio.nombre }}</td>
             <td>{{ cita.negocio.nombre }}</td>
             <td>{{ cita.fecha }}</td>
-            <td>{{ cita.hora }}</td>
+            <td>{{ cita.hora_inicio }} - {{ cita.hora_fin }}</td>
+            <td>
+                <a href="/citas/{{ cita.id_cita }}/editar" class="btn-secondary">Editar</a>
+                
+                <form action="/citas/{{ cita.id_cita }}/eliminar" method="POST">
+                    <button type="submit" class="btn-danger"
+                    onclick="return confirm('¿Seguro que deseas eliminar esta cita?')">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

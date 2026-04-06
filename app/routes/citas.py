@@ -162,3 +162,55 @@ def crear_cita_front():
     db.session.commit()
 
     return redirect(url_for('citas.listar_citas_front'))
+
+@citas_bp.route('/citas/<int:id_cita>/eliminar', methods=['POST'])
+def eliminar_cita_front(id_cita):
+    cita = Cita.query.get_or_404(id_cita)
+    db.session.delete(cita)
+    db.session.commit()
+    return redirect(url_for('citas.listar_citas_front'))
+
+@citas_bp.route('/citas/<int:id_cita>/editar', methods=['GET'])
+def editar_cita(id_cita):
+    cita = Cita.query.get_or_404(id_cita)
+    clientes = Cliente.query.all()
+    servicios = Servicio.query.all()
+    negocios = Negocio.query.all()
+
+    return render_template(
+        'citas/editar.html',
+        cita=cita,
+        clientes=clientes,
+        servicios=servicios,
+        negocios=negocios
+    )
+
+@citas_bp.route('/citas/<int:id_cita>/editar', methods=['POST'])
+def actualizar_cita_front(id_cita):
+    cita = Cita.query.get_or_404(id_cita)
+
+    id_cliente = request.form.get('id_cliente')
+    id_servicio = request.form.get('id_servicio')
+    id_negocio = request.form.get('id_negocio')
+    fecha = request.form.get('fecha')
+    hora_inicio = request.form.get('hora')
+
+    servicio = Servicio.query.get(id_servicio)
+
+    if len(hora_inicio) == 5:
+        hora_inicio_dt = datetime.strptime(hora_inicio, '%H:%M')
+    else:
+        hora_inicio_dt = datetime.strptime(hora_inicio, '%H:%M:%S')
+    
+    hora_fin_dt = hora_inicio_dt + timedelta(minutes=servicio.duracion)
+
+    cita.id_cliente = id_cliente
+    cita.id_servicio = id_servicio
+    cita.id_negocio = id_negocio
+    cita.fecha = datetime.strptime(fecha, '%Y-%m-%d').date()
+    cita.hora_inicio = hora_inicio_dt.time()
+    cita.hora_fin = hora_fin_dt.time()
+
+    db.session.commit()
+
+    return redirect(url_for('citas.listar_citas_front'))
