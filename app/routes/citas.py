@@ -148,6 +148,23 @@ def crear_cita_front():
     hora_inicio_dt = datetime.strptime(hora_inicio, '%H:%M')
     hora_fin_dt = hora_inicio_dt + timedelta(minutes=servicio.duracion)
 
+    negocio = Negocio.query.get(id_negocio)
+
+    if hora_inicio_dt.time() < negocio.hora_apertura or hora_fin_dt.time() > negocio.hora_cierre:
+        return "La cita está fuera del horario de atención del negocio", 400
+
+    cita_cruzada = Cita.query.filter(
+        Cita.id_negocio == id_negocio,
+        Cita.fecha == datetime.strptime(fecha, '%Y-%m-%d').date(),
+        and_(
+            hora_inicio_dt.time() < Cita.hora_fin,
+            hora_fin_dt.time() > Cita.hora_inicio
+        )
+    ).first()
+
+    if cita_cruzada:
+        return "Ya existe una cita en ese horario para este negocio", 400
+
     cita = Cita(
         id_cliente=id_cliente,
         id_servicio=id_servicio,

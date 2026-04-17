@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app import db 
 from app.models.cliente import Cliente
+from flask import render_template
 
 clientes_bp = Blueprint('clientes', __name__)
 
@@ -64,5 +65,10 @@ def listar_clientes():
         })
 
     return jsonify(resultado), 200
+
+@clientes_bp.route('/clientes/listar', methods=['GET'])
+def listar_clientes_front():
+    clientes = Cliente.query.all()
+    return render_template('clientes/listar.html', clientes=clientes)
 
     
