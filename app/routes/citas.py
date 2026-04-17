@@ -150,9 +150,6 @@ def crear_cita_front():
 
     negocio = Negocio.query.get(id_negocio)
 
-    if hora_inicio_dt.time() < negocio.hora_apertura or hora_fin_dt.time() > negocio.hora_cierre:
-        return "La cita está fuera del horario de atención del negocio", 400
-
     cita_cruzada = Cita.query.filter(
         Cita.id_negocio == id_negocio,
         Cita.fecha == datetime.strptime(fecha, '%Y-%m-%d').date(),
@@ -162,8 +159,29 @@ def crear_cita_front():
         )
     ).first()
 
+    if hora_inicio_dt.time() < negocio.hora_apertura or hora_fin_dt.time() > negocio.hora_cierre:
+        clientes = Cliente.query.all()
+        servicios = Servicio.query.all()
+        negocios = Negocio.query.all()
+        return render_template(
+            'citas/crear.html',
+            clientes=clientes,
+            servicios=servicios,
+            negocios=negocios,
+            error="La cita está fuera del horario de atención del negocio"
+        ), 400
+
     if cita_cruzada:
-        return "Ya existe una cita en ese horario para este negocio", 400
+        clientes = Cliente.query.all()
+        servicios = Servicio.query.all()
+        negocios = Negocio.query.all()
+        return render_template(
+            'citas/crear.html',
+            clientes=clientes,
+            servicios=servicios,
+            negocios=negocios,
+            error="Ya existe una cita en ese horario para este negocio"
+        ), 400
 
     cita = Cita(
         id_cliente=id_cliente,

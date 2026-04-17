@@ -1,39 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Crear cita</h2>
+<div class="form-card">
+    <h2>Crear cita</h2>
 
-<form method="POST" action="/citas/nuevo" class="form">
-    <label>Cliente *</label>
-    <select name="id_cliente" required>
-        {% for cliente in clientes %}
-            <option value="{{ cliente.id_cliente }}">{{ cliente.nombre }}</option>
-        {% endfor %}
-    </select>
+    {% if error %}
+        <div class="error-box">
+            {{ error }}
+        </div>
+    {% endif %}
 
-    <label>Servicio *</label>
-    <select name="id_servicio" required>
-        {% for servicio in servicios %}
-            <option value="{{ servicio.id_servicio }}">{{ servicio.nombre }}</option>
-        {% endfor %}
-    </select>
+    <form method="POST" action="/citas/nuevo" class="form">
+        <label>Cliente *</label>
+        <select name="id_cliente" required>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id_cliente }}">{{ cliente.nombre }}</option>
+            {% endfor %}
+        </select>
 
-    <label>Negocio *</label>
-    <select name="id_negocio" required>
-        {% for negocio in negocios %}
-            <option value="{{ negocio.id_negocio }}">{{ negocio.nombre }}</option>
-        {% endfor %}
-    </select>
+        <label>Servicio *</label>
+        <select name="id_servicio" required>
+            {% for servicio in servicios %}
+                <option value="{{ servicio.id_servicio }}">{{ servicio.nombre }}</option>
+            {% endfor %}
+        </select>
 
-    <label>Fecha *</label>
-    <input type="date" name="fecha" required>
+        <label>Negocio *</label>
+        <select name="id_negocio" required>
+            {% for negocio in negocios %}
+                <option value="{{ negocio.id_negocio }}">{{ negocio.nombre }}</option>
+            {% endfor %}
+        </select>
 
-    <label>Hora *</label>
-    <input type="time" name="hora" required>
+        <label>Fecha *</label>
+        <input type="date" name="fecha" required onkeydown="return false" onfocus="this.showPicker()" onclick="this.showPicker()">
 
-    <div class="form-actions">
-        <button type="submit" class="btn-primary">Guardar</button>
-        <a href="/citas/listar" class="btn-secondary">Cancelar</a>
-    </div>
-</form>
+        <label>Hora *</label>
+        <input type="time" name="hora" required onkeydown="return false" onfocus="this.showPicker()" onclick="this.showPicker()">
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Guardar</button>
+            <a href="/citas/listar" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

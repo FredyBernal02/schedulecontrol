@@ -36,10 +36,16 @@
     </select>
 
     <label>Fecha</label>
-    <input type="date" name="fecha" value="{{ cita.fecha }}" required>
+    <input type="date" name="fecha" value="{{ cita.fecha }}" required
+    onkeydown="return false"
+    onfocus="this.showPicker()"
+    onclick="this.showPicker()">
 
     <label>Hora</label>
-    <input type="time" name="hora" value="{{ cita.hora_inicio }}" required>
+    <input type="time" name="hora" value="{{ cita.hora_inicio }}" required
+    onkeydown="return false"
+    onfocus="this.showPicker()"
+    onclick="this.showPicker()">
 
     <br><br>
 
