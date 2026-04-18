@@ -2,17 +2,17 @@
 
 {% block content %}
 <div class="form-card">
-    <h2>Crear servicio</h2>
+    <h2>Nuevo cliente</h2>
 
-    <form method="POST" action="/servicios/nuevo" class="form">
+    <form method="POST" action="/clientes/nuevo" class="form">
         <label>Nombre *</label>
         <input type="text" name="nombre" required>
 
-        <label>Duración (min) *</label>
-        <input type="number" name="duracion" required>
+        <label>Correo</label>
+        <input type="email" name="correo">
 
-        <label>Precio *</label>
-        <input type="number" step="0.01" name="precio" required>
+        <label>Teléfono</label>
+        <input type="text" name="telefono">
 
         <label>Negocio *</label>
         <select name="id_negocio" required>
@@ -25,7 +25,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn-primary">Guardar</button>
-            <a href="/servicios/listar" class="btn-secondary">Cancelar</a>
+            <a href="/clientes/listar" class="btn-secondary">Cancelar</a>
         </div>
     </form>
 </div>

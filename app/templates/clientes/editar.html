@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-card">
+    <h2>Editar cliente</h2>
+
+    <form method="POST" class="form">
+
+        <label>Nombre *</label>
+        <input type="text" name="nombre" value="{{ cliente.nombre }}" required>
+
+        <label>Correo</label>
+        <input type="email" name="correo" value="{{ cliente.correo }}">
+
+        <label>Teléfono</label>
+        <input type="text" name="telefono" value="{{ cliente.telefono }}">
+
+        <label>Negocio *</label>
+        <select name="id_negocio" required>
+            {% for negocio in negocios %}
+            <option value="{{ negocio.id_negocio }}"
+            {% if negocio.id_negocio == cliente.id_negocio %}selected{% endif %}>
+                {{ negocio.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Guardar cambios</button>
+            <a href="/clientes/listar" class="btn-secondary">Cancelar</a>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

@@ -1,103 +1,113 @@
-# ScheduleControl – Backend
+# 📅 ScheduleControl
 
-ScheduleControl es un sistema de gestión de turnos y citas orientado a pequeños negocios, como barberías, consultorios, salones de belleza u otros servicios que trabajan bajo programación previa.
-
-Este proyecto hace parte de la etapa productiva del programa **Análisis y Desarrollo de Software (ADSO)** del **SENA**.
+Sistema de gestión de turnos y citas para negocios pequeños como barberías, consultorios o centros de servicios.
 
 ---
 
-## 🚀 Objetivo del proyecto
+## 🚀 Descripción
 
-Desarrollar una aplicación web que permita a los negocios gestionar de manera organizada sus citas, clientes y servicios, reduciendo errores comunes como:
+ScheduleControl permite administrar de forma organizada:
 
-- Pérdida de citas
-- Duplicación de horarios
-- Falta de control sobre la agenda
-- Uso de métodos manuales como cuadernos o archivos dispersos
-- En esta etapa, el proyecto se enfoca en el desarrollo del backend, implementando la lógica de negocio y una API REST funcional.
+- Clientes  
+- Servicios  
+- Citas  
+
+El sistema evita conflictos de horarios y asegura que las citas se asignen dentro del horario de atención del negocio.
+
+---
+
+## 🧠 Funcionalidades principales
+
+✅ Registro y gestión de clientes  
+✅ Creación y administración de servicios  
+✅ Agendamiento de citas  
+✅ Validación de citas cruzadas (sin solapamientos)  
+✅ Validación de horario del negocio  
+✅ Edición y eliminación de registros  
+✅ Interfaz web (frontend con Flask templates)  
 
 ---
 
 ## 🛠️ Tecnologías utilizadas
 
-- **Python 3**
-- **Flask** (Framework web)
-- **Flask-SQLAlchemy**
-- **SQLite**
-- **Git & GitHub**
-- **HTML / CSS** (frontend futuro)
+- Python 🐍  
+- Flask  
+- Flask-SQLAlchemy  
+- SQLite  
+- HTML + CSS  
+- Jinja2  
 
 ---
 
-## 📂 Estructura del proyecto
+## 📁 Estructura del proyecto
 
 schedulecontrol/
+│
 ├── app/
-│   ├── models/
-│   │   ├── negocio.py
-│   │   ├── cliente.py
-│   │   ├── servicio.py
-│   │   ├── cita.py
-│   │   └── usuarios.py
-│   ├── routes/
-│   │   ├── negocios.py
-│   │   ├── clientes.py
-│   │   ├── servicios.py
-│   │   └── citas.py
-│   └── __init__.py
+│ ├── models/
+│ ├── routes/
+│ ├── templates/
+│ ├── static/
+│ └── extensions.py
+│
 ├── instance/
-│   └── schedulecontrol.db
-├── create_db.py
+│ └── schedulecontrol.db
+│
 ├── run.py
 ├── requirements.txt
-├── README.md
-└── .gitignore
+└── README.md
 
-## 🔄 Funcionalidades implementadas (CRUD)
 
-### Negocios
-- Crear negocio con horario de atención
+---
 
-### Clientes
-- Crear, listar, actualizar y eliminar clientes
+## ▶️ Cómo ejecutar el proyecto
 
-### Servicios
-- Crear, listar, actualizar y eliminar servicios
+1. Clonar el repositorio:
 
-### Citas
-- Crear, listar, actualizar estado y eliminar citas
+```bash
+git clone https://github.com/FredyBernal02/schedulecontrol.git
+cd schedulecontrol
 
-## ⚠️ Reglas de negocio implementadas
+Crear entorno virtual:
 
-- ❌ No se permiten citas cruzadas en el mismo negocio
-- ❌ No se permiten citas fuera del horario de atención
-- ✅ Validación de existencia de negocio, cliente y servicio
-- 📩 Respuestas claras con códigos HTTP
+python3 -m venv venv
+source venv/bin/activate
 
-## 📌 Estado del proyecto
+Instalar dependencias:
 
-✅ Backend completamente funcional  
-🟡 Frontend pendiente  
-🟡 Despliegue en la nube pendiente  
+pip install -r requirements.txt
 
-### 📁 Descripción de carpetas y archivos
+Ejecutar la aplicación:
 
-- **app/**: Contiene la lógica principal del backend desarrollado con Flask.
-  
-- **app/models/**: Define los modelos de la base de datos mediante SQLAlchemy (Negocio, Cliente, Servicio, Cita y Usuario).
+python run.py
 
-- **app/routes/**: Contiene los endpoints de la API REST organizados por módulo, implementando operaciones CRUD para cada entidad.
+Abrir en navegador:
 
-- **app/__init__.py**: Inicializa la aplicación Flask, configura la base de datos y registra los Blueprints.
+http://127.0.0.1:5000
 
-- **instance/**: Almacena la base de datos SQLite utilizada durante el desarrollo.
+📸 Capturas del sistema
 
-- **create_db.py**: Script encargado de crear e inicializar la base de datos.
+Panel principal
+Gestión de clientes
+Gestión de servicios
+Gestión de citas
 
-- **run.py**: Punto de entrada para ejecutar la aplicación Flask.
+📌 Estado del proyecto
 
-- **venv/**: Entorno virtual que contiene las dependencias del proyecto.
+🟢 Backend completo
+🟢 Frontend funcional
+🟡 Mejoras visuales en progreso
+🔜 Vista para clientes (agendamiento público)
 
-- **requirements.txt**: Lista de dependencias necesarias para ejecutar el proyecto.
+👨‍💻 Autor
 
-- **README.md**: Documentación general del proyecto.
+Fredy Bernal
+
+GitHub: https://github.com/FredyBernal02
+LinkedIn: https://www.linkedin.com/in/fredybernaltech
+
+📘 Proyecto académico
+
+Desarrollado como parte del programa ADSO - SENA
+Ficha: 2721519
+
