@@ -54,66 +54,76 @@ Sistema de gestión de turnos y citas para negocios pequeños como barberías, p
 
 ---
 
-## 📁 Estructura del proyecto
+## 🗂️ Estructura del proyecto
 
-```bash
+```text
 schedulecontrol/
 │── app/
+│   ├── models/
 │   ├── routes/
 │   ├── templates/
-│   ├── static/
-│── assets/imagenes/
+│   └── static/
+
 │── instance/
+│   └── schedulecontrol.db
+
 │── run.py
 │── requirements.txt
-│── README.md
-
-▶️ Cómo ejecutar el proyecto
-
-git clone https://github.com/FredyBernal02/schedulecontrol.git
-cd schedulecontrol
-
-python3 -m venv venv
-source venv/bin/activate
-
-pip install -r requirements.txt
-
-python run.py
-
-Abrir en navegador:
-
-http://127.0.0.1:5000
-
-📌 Estado del proyecto
-
-🟢 Backend completo
-🟢 Frontend completo
-🟢 CRUD funcional en todos los módulos
-🟢 Proyecto listo para portfolio
-
-👨‍💻 Autor
-
-Fredy Bernal
-
-🔗 GitHub: https://github.com/FredyBernal02
-
-🔗 LinkedIn: https://www.linkedin.com/in/fredybernaltech
-
-🎓 Proyecto académico
-
-Desarrollado como parte del programa ADSO - SENA
-Ficha: 2721519
-
-
+└── README.md
+```
 ---
 
-# 🔥 Antes de guardar
+## ▶️ Cómo ejecutar el proyecto
 
-Solo debes asegurarte de que tus imágenes existan con estos nombres:
+### 1️⃣ Clonar repositorio
 
 ```bash
-assets/imagenes/dashboard.png
-assets/imagenes/clientes.png
-assets/imagenes/servicios.png
-assets/imagenes/citas.png
-assets/imagenes/negocios.png
+git clone https://github.com/FredyBernal02/schedulecontrol.git
+cd schedulecontrol
+```
+### 2️⃣ Crear entorno virtual
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3️⃣ Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Ejecutar aplicación
+
+```bash
+python run.py
+```
+
+### 5️⃣ Abrir navegador
+
+```bash
+http://127.0.0.1:5000
+```
+
+## 📌 Estado del proyecto
+
+- 🟢 Backend completo
+- 🟢 Frontend funcional
+- 🟢 CRUD completo
+- 🟢 Validaciones implementadas
+- 🟢 Proyecto listo para portafolio
+
+## 👨‍💻 Autor
+
+**Fredy Aldemar Bernal Rodriguez**
+
+- GitHub: https://github.com/FredyBernal02
+- LinkedIn: https://linkedin.com/in/fredybernaltech
+
+
+
+
+
+
+
