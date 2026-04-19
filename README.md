@@ -8,23 +8,23 @@ Sistema de gestión de turnos y citas para negocios pequeños como barberías, p
 
 ### Panel principal
 
-![Dashboard](assets/imagenes/dashboard.png)
+![Dashboard](assets/images/dashboard.png)
 
 ### Clientes
 
-![Clientes](assets/imagenes/clientes.png)
+![Clientes](assets/images/clientes.png)
 
 ### Servicios
 
-![Servicios](assets/imagenes/servicios.png)
+![Servicios](assets/images/servicios.png)
 
 ### Citas
 
-![Citas](assets/imagenes/citas.png)
+![Citas](assets/images/citas.png)
 
 ### Negocios
 
-![Negocios](assets/imagenes/negocios.png)
+![Negocios](assets/images/negocios.png)
 
 ---
 
