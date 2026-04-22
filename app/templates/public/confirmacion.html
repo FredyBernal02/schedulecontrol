@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-card">
+
+    <h2>✅ Reserva realizada con éxito</h2>
+
+    <p>Tu cita fue registrada correctamente.</p>
+
+    <hr>
+
+    <p><strong>Cliente:</strong> {{ cita.cliente.nombre }}</p>
+    <p><strong>Negocio:</strong> {{ cita.negocio.nombre }}</p>
+    <p><strong>Servicio:</strong> {{ cita.servicio.nombre }}</p>
+    <p><strong>Fecha:</strong> {{ cita.fecha }}</p>
+    <p><strong>Hora:</strong> {{ cita.hora_inicio.strftime('%H:%M') }}</p>
+
+    <div class="form-actions">
+        <a href="/agendar" class="btn-primary">Reservar otra cita</a>
+    </div>
+
+</div>
+{% endblock %}

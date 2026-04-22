@@ -249,3 +249,117 @@ def actualizar_cita_front(id_cita):
     db.session.commit()
 
     return redirect(url_for('citas.listar_citas_front'))
+
+@citas_bp.route('/agendar', methods=['GET'])
+def vista_agendar():
+    negocios = Negocio.query.all()
+    servicios = Servicio.query.all()
+
+    id_negocio = request.args.get('id_negocio')
+    id_servicio = request.args.get('id_servicio')
+    fecha = request.args.get('fecha')
+
+    horas_disponibles = []
+
+    if id_negocio and id_servicio and fecha:
+        negocio = Negocio.query.get(int(id_negocio))
+        servicio = Servicio.query.get(int(id_servicio))
+
+        fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+
+        hora_actual = datetime.combine(fecha_obj, negocio.hora_apertura)
+        hora_cierre = datetime.combine(fecha_obj, negocio.hora_cierre)
+
+        while hora_actual + timedelta(minutes=servicio.duracion) <= hora_cierre:
+            horas_disponibles.append(hora_actual.strftime('%H:%M'))
+            hora_actual += timedelta(minutes=30)
+
+    return render_template(
+        'public/agendar.html',
+        negocios=negocios,
+        servicios=servicios,
+        horas_disponibles=horas_disponibles,
+        id_negocio=id_negocio,
+        id_servicio=id_servicio,
+        fecha=fecha
+    )
+
+@citas_bp.route('/agendar', methods=['POST'])
+def agendar_publico():
+    nombre = request.form.get('nombre')
+    correo = request.form.get('correo')
+    telefono = request.form.get('telefono')
+    id_negocio = request.form.get('id_negocio')
+    id_servicio = request.form.get('id_servicio')
+    fecha = request.form.get('fecha')
+    hora = request.form.get('hora')
+
+    cliente = Cliente.query.filter_by(correo=correo).first()
+
+    if not cliente:
+        cliente = Cliente(
+            nombre=nombre,
+            correo=correo,
+            telefono=telefono,
+            id_negocio=id_negocio
+        )
+        db.session.add(cliente)
+        db.session.commit()
+
+    servicio = Servicio.query.get(id_servicio)
+    negocio = Negocio.query.get(id_negocio)
+
+    hora_inicio_dt = datetime.strptime(hora, '%H:%M')
+    hora_fin_dt = hora_inicio_dt + timedelta(minutes=servicio.duracion)
+
+    cita_cruzada = Cita.query.filter(
+        Cita.id_negocio == id_negocio,
+        Cita.fecha == datetime.strptime(fecha, '%Y-%m-%d').date(),
+        and_(
+            hora_inicio_dt.time() < Cita.hora_fin,
+            hora_fin_dt.time() > Cita.hora_inicio
+        )
+    ).first()
+
+    if hora_inicio_dt.time() < negocio.hora_apertura or hora_fin_dt.time() > negocio.hora_cierre:
+        negocios = Negocio.query.all()
+        servicios = Servicio.query.all()
+        return render_template(
+            'public/agendar.html',
+            negocios=negocios,
+            servicios=servicios,
+            error="La cita está fuera del horario de atención del negocio"
+        )
+
+    if cita_cruzada:
+        negocios = Negocio.query.all()
+        servicios = Servicio.query.all()
+        return render_template(
+            'public/agendar.html',
+            negocios=negocios,
+            servicios=servicios,
+            error="Ya existe una cita en ese horario para este negocio"
+        )
+
+    cita = Cita(
+        id_cliente=cliente.id_cliente,
+        id_servicio=id_servicio,
+        id_negocio=id_negocio,
+        fecha=datetime.strptime(fecha, '%Y-%m-%d').date(),
+        hora_inicio=hora_inicio_dt.time(),
+        hora_fin=hora_fin_dt.time(),
+        estado='pendiente'
+    )
+
+    db.session.add(cita)
+    db.session.commit()
+
+    return redirect(url_for('citas.confirmacion_reserva'))
+
+@citas_bp.route('/agendar/confirmacion')
+def confirmacion_reserva():
+    ultima_cita = Cita.query.order_by(Cita.id_cita.desc()).first()
+    return render_template(
+        'public/confirmacion.html',
+        cita=ultima_cita
+    )

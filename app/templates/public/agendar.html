@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-card" id="reserva-form">
+    <h2>Reserva tu cita</h2>
+
+    <form method="GET" action="/agendar" class="form">
+        <label>Nombre *</label>
+        <input type="text" name="nombre" value="{{ request.args.get('nombre', '') }}" required>
+
+        <label>Correo</label>
+        <input type="email" name="correo" value="{{ request.args.get('correo', '') }}">
+
+        <label>Teléfono *</label>
+        <input type="text" name="telefono" value="{{ request.args.get('telefono', '') }}" required>
+
+        <label>Negocio *</label>
+        <select name="id_negocio" required onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'">
+            <option value="">Selecciona un negocio</option>
+            {% for negocio in negocios %}
+            <option value="{{ negocio.id_negocio }}" {% if id_negocio and id_negocio|int == negocio.id_negocio %}selected{% endif %}>
+                {{ negocio.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Servicio *</label>
+        <select name="id_servicio" required onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'">
+            <option value="">Selecciona un servicio</option>
+            {% for servicio in servicios %}
+            <option value="{{ servicio.id_servicio }}" {% if id_servicio and id_servicio|int == servicio.id_servicio %}selected{% endif %}>
+                {{ servicio.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Fecha *</label>
+        <input type="date" name="fecha" value="{{ fecha if fecha else '' }}" required
+            onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'"
+            onkeydown="return false"
+            onfocus="this.showPicker()"
+            onclick="this.showPicker()">
+
+        <label id="hora-disponible">Hora *</label>
+        <select name="hora" required>
+            <option value="">Selecciona una hora</option>
+            {% for hora in horas_disponibles %}
+            <option value="{{ hora }}">{{ hora }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary" formaction="/agendar" formmethod="POST">Reservar cita</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
