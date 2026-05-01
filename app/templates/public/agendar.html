@@ -35,7 +35,7 @@
         </select>
 
         <label>Fecha *</label>
-        <input type="date" name="fecha" value="{{ fecha if fecha else '' }}" required
+        <input type="date" name="fecha" value="{{ fecha if fecha else '' }}" min="{{ fecha_actual }}" required
             onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'"
             onkeydown="return false"
             onfocus="this.showPicker()"
@@ -44,8 +44,12 @@
         <label id="hora-disponible">Hora *</label>
         <select name="hora" required>
             <option value="">Selecciona una hora</option>
-            {% for hora in horas_disponibles %}
-            <option value="{{ hora }}">{{ hora }}</option>
+            {% for item in horas_disponibles %}
+                {% if item.ocupada %}
+                    <option value="{{ item.hora }}" disabled>{{ item.hora }} - Ocupado</option>
+                {% else %}
+                    <option value="{{ item.hora }}">{{ item.hora }}</option>
+                {% endif %}
             {% endfor %}
         </select>
 

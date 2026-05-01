@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint, request, jsonify, redirect, url_for
 from app import db
 from app.models.cita import Cita
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from sqlalchemy import and_
 from app.models.negocio import Negocio
 from app.models.cliente import Cliente
@@ -259,6 +259,8 @@ def vista_agendar():
     id_servicio = request.args.get('id_servicio')
     fecha = request.args.get('fecha')
 
+    fecha_actual = date.today().isoformat()
+
     horas_disponibles = []
 
     if id_negocio and id_servicio and fecha:
@@ -270,19 +272,37 @@ def vista_agendar():
         hora_actual = datetime.combine(fecha_obj, negocio.hora_apertura)
         hora_cierre = datetime.combine(fecha_obj, negocio.hora_cierre)
 
+        citas_existentes = Cita.query.filter(
+            Cita.id_negocio == int(id_negocio),
+            Cita.fecha == fecha_obj
+        ).all()
+
         while hora_actual + timedelta(minutes=servicio.duracion) <= hora_cierre:
-            horas_disponibles.append(hora_actual.strftime('%H:%M'))
+            hora_fin_posible = hora_actual + timedelta(minutes=servicio.duracion)
+
+            esta_ocupada = False
+
+            for cita in citas_existentes:
+                if hora_actual.time() < cita.hora_fin and hora_fin_posible.time() > cita.hora_inicio:
+                    esta_ocupada = True
+
+            horas_disponibles.append({
+                "hora": hora_actual.strftime('%H:%M'),
+                "ocupada": esta_ocupada
+            })
+
             hora_actual += timedelta(minutes=30)
 
     return render_template(
-        'public/agendar.html',
-        negocios=negocios,
-        servicios=servicios,
-        horas_disponibles=horas_disponibles,
-        id_negocio=id_negocio,
-        id_servicio=id_servicio,
-        fecha=fecha
-    )
+    'public/agendar.html',
+    negocios=negocios,
+    servicios=servicios,
+    horas_disponibles=horas_disponibles,
+    id_negocio=id_negocio,
+    id_servicio=id_servicio,
+    fecha=fecha,
+    fecha_actual=fecha_actual
+)
 
 @citas_bp.route('/agendar', methods=['POST'])
 def agendar_publico():
@@ -293,6 +313,19 @@ def agendar_publico():
     id_servicio = request.form.get('id_servicio')
     fecha = request.form.get('fecha')
     hora = request.form.get('hora')
+
+    fecha_actual = date.today().isoformat()
+
+    if fecha and fecha < fecha_actual:
+        negocios = Negocio.query.all()
+        servicios = Servicio.query.all()
+        return render_template(
+            'public/agendar.html',
+            negocios=negocios,
+            servicios=servicios,
+            fecha_actual=fecha_actual,
+            error="No puedes agendar citas en fechas pasadas."
+    )
 
     cliente = Cliente.query.filter_by(correo=correo).first()
 
