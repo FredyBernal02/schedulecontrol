@@ -14,6 +14,7 @@ def login():
 
         if usuario and usuario.contrasena == contrasena:
             session['usuario_id'] = usuario.id_usuario
+            session['usuario_nombre'] = usuario.nombre
             return redirect(url_for('main.dashboard'))
         else:
             return render_template('auth/login.html', error='Credenciales incorrectas')

@@ -9,6 +9,9 @@
             <a href="/clientes/listar">Clientes</a>
             <a href="/servicios/listar">Servicios</a>
             <a href="/citas/listar">Citas</a>
+            <span class="user-name">
+                Hola, <span>{{ session.get('usuario_nombre') }}</span>
+            </span>
             <a href="{{ url_for('auth.logout') }}" class="logout-link" title="Cerrar sesión">⏻</a>
         </nav>
     {% endif %}

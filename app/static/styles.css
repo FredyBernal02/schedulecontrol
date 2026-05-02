@@ -408,3 +408,13 @@ nav a.logout-link:hover {
     background-color: rgba(255,255,255,0.15);
     transform: scale(1.1);
 }
+
+.user-name {
+    margin-left: 15px;
+    color: #ffffff;
+    font-weight: 400; /* más suave para "Hola," */
+}
+
+.user-name span {
+    font-weight: 700; /* más fuerte para el nombre */
+}
