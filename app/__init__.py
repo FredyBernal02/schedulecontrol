@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session, redirect, url_for, request
 from app.extensions import db
 from app.routes.auth import auth_bp
 from app.routes.main import main_bp
@@ -23,5 +23,15 @@ def create_app():
     app.register_blueprint(negocios_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
+
+    @app.before_request
+    def proteger_rutas():
+        rutas_publicas = ['auth.login', 'citas.vista_agendar', 'citas.agendar_publico', 'citas.confirmacion_reserva', 'static']
+
+        if request.endpoint in rutas_publicas:
+            return
+
+        if 'usuario_id' not in session:
+            return redirect(url_for('auth.login'))
 
     return app

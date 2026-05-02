@@ -19,3 +19,8 @@ def login():
             return render_template('auth/login.html', error='Credenciales incorrectas')
 
     return render_template('auth/login.html')
+
+@auth_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('auth.login'))

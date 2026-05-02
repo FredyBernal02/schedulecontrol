@@ -2,11 +2,15 @@
     <h1>ScheduleControl</h1>
     <p class="subtitle">Sistema de gestión de turnos y citas</p>
 
-    <nav class="main-nav">
-        <a href="/">Inicio</a>
-        <a href="/negocios">Negocios</a>
-        <a href="/clientes/listar">Clientes</a>
-        <a href="/servicios/listar">Servicios</a>
-        <a href="/citas/listar">Citas</a>
-    </nav>
+    {% if session.get('usuario_id') %}
+        <nav class="main-nav">
+            <a href="{{ url_for('main.dashboard') }}">Inicio</a>
+            <a href="{{ url_for('negocios.listar_negocios') }}">Negocios</a>
+            <a href="/clientes/listar">Clientes</a>
+            <a href="/servicios/listar">Servicios</a>
+            <a href="/citas/listar">Citas</a>
+            <a href="{{ url_for('auth.logout') }}" class="logout-link" title="Cerrar sesión">⏻</a>
+        </nav>
+    {% endif %}
+    
 </header>
