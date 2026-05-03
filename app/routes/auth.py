@@ -42,6 +42,12 @@ def guardar_usuario():
     correo = request.form.get('correo')
     contrasena = request.form.get('contrasena')
 
+    usuario_existente = Usuario.query.filter_by(correo=correo).first()
+
+    if usuario_existente:
+        flash("Ya existe un usuario registrado con ese correo.", "error")
+        return redirect(url_for('auth.crear_usuario'))
+
     usuario = Usuario(
         nombre=nombre,
         correo=correo,
@@ -55,4 +61,12 @@ def guardar_usuario():
 
     flash("Usuario creado correctamente", "success")
 
-    return redirect(url_for('main.dashboard'))
+    return redirect(url_for('auth.listar_usuarios'))
+
+@auth_bp.route('/usuarios')
+def listar_usuarios():
+    if 'usuario_id' not in session:
+        return redirect(url_for('auth.login'))
+
+    usuarios = Usuario.query.all()
+    return render_template('auth/usuarios.html', usuarios=usuarios)
