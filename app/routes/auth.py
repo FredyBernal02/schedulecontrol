@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import flash
 from app.models.usuarios import Usuario
+from werkzeug.security import check_password_hash
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -12,7 +14,7 @@ def login():
 
         usuario = Usuario.query.filter_by(correo=correo).first()
 
-        if usuario and usuario.contrasena == contrasena:
+        if usuario and check_password_hash(usuario.contrasena, contrasena):
             session['usuario_id'] = usuario.id_usuario
             session['usuario_nombre'] = usuario.nombre
             return redirect(url_for('main.dashboard'))
@@ -25,3 +27,32 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
+
+@auth_bp.route('/usuarios/nuevo', methods=['GET'])
+def crear_usuario():
+    return render_template('auth/crear_usuario.html')
+
+@auth_bp.route('/usuarios/nuevo', methods=['POST'])
+def guardar_usuario():
+    from app import db
+    from app.models.usuarios import Usuario
+    from werkzeug.security import generate_password_hash
+
+    nombre = request.form.get('nombre')
+    correo = request.form.get('correo')
+    contrasena = request.form.get('contrasena')
+
+    usuario = Usuario(
+        nombre=nombre,
+        correo=correo,
+        contrasena=generate_password_hash(contrasena),
+        rol='admin',
+        id_negocio=1
+    )
+
+    db.session.add(usuario)
+    db.session.commit()
+
+    flash("Usuario creado correctamente", "success")
+
+    return redirect(url_for('main.dashboard'))

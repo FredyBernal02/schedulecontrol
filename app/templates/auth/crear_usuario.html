@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-card">
+    <h2>Crear usuario</h2>
+
+    <form method="POST" action="/usuarios/nuevo" class="form">
+        <label>Nombre</label>
+        <input type="text" name="nombre" required>
+
+        <label>Correo</label>
+        <input type="email" name="correo" required>
+
+        <label>Contraseña</label>
+        <input type="password" name="contrasena" required>
+
+        <button type="submit" class="btn-primary">Crear usuario</button>
+    </form>
+</div>
+{% endblock %}

@@ -418,3 +418,22 @@ nav a.logout-link:hover {
 .user-name span {
     font-weight: 700; /* más fuerte para el nombre */
 }
+
+.flash-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.flash-message {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.flash-message.success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}

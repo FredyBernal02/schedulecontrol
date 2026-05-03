@@ -9,6 +9,7 @@
             <a href="/clientes/listar">Clientes</a>
             <a href="/servicios/listar">Servicios</a>
             <a href="/citas/listar">Citas</a>
+            <a href="{{ url_for('auth.crear_usuario') }}">Usuarios</a>
             <span class="user-name">
                 Hola, <span>{{ session.get('usuario_nombre') }}</span>
             </span>
