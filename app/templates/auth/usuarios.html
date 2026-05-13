@@ -14,6 +14,7 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Correo</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,23 @@
                 <td>{{ usuario.id_usuario }}</td>
                 <td>{{ usuario.nombre }}</td>
                 <td>{{ usuario.correo }}</td>
+                <td>
+                    <div class="actions-cell">
+                        <a href="{{ url_for('auth.editar_usuario', id_usuario=usuario.id_usuario) }}" class="btn-edit">Editar</a>
+
+                        {% if usuario.id_usuario == session['usuario_id'] %}
+                            <button type="button" class="btn-delete btn-disabled" disabled title="No puedes eliminar tu propio usuario">
+                                Bloqueado
+                            </button>
+                        {% else %}
+                            <form action="{{ url_for('auth.eliminar_usuario', id_usuario=usuario.id_usuario) }}" method="POST">
+                                <button type="submit" class="btn-delete" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                    Eliminar
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

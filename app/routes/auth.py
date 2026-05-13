@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from flask import flash
 from app.models.usuarios import Usuario
 from werkzeug.security import check_password_hash
+from app import db
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -70,3 +71,35 @@ def listar_usuarios():
 
     usuarios = Usuario.query.all()
     return render_template('auth/usuarios.html', usuarios=usuarios)
+
+@auth_bp.route('/usuarios/<int:id_usuario>/eliminar', methods=['POST'])
+def eliminar_usuario(id_usuario):
+    usuario = Usuario.query.get_or_404(id_usuario)
+
+    if usuario.id_usuario == session.get('usuario_id'):
+        flash("No puedes eliminar tu propio usuario", "error")
+        return redirect(url_for('auth.listar_usuarios'))
+
+    db.session.delete(usuario)
+    db.session.commit()
+
+    flash("Usuario eliminado correctamente", "success")
+    return redirect(url_for('auth.listar_usuarios'))
+
+@auth_bp.route('/usuarios/<int:id_usuario>/editar', methods=['GET', 'POST'])
+def editar_usuario(id_usuario):
+    if 'usuario_id' not in session:
+        return redirect(url_for('auth.login'))
+
+    usuario = Usuario.query.get_or_404(id_usuario)
+
+    if request.method == 'POST':
+        usuario.nombre = request.form.get('nombre')
+        usuario.correo = request.form.get('correo')
+
+        db.session.commit()
+
+        flash('Usuario actualizado correctamente', 'success')
+        return redirect(url_for('auth.listar_usuarios'))
+
+    return render_template('auth/editar_usuario.html', usuario=usuario)
