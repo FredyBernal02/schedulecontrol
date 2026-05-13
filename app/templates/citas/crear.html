@@ -13,27 +13,52 @@
     <form method="POST" action="/citas/nuevo" class="form">
         <label>Cliente *</label>
         <select name="id_cliente" required>
+
+            <option value="" selected disabled>
+                Seleccione un cliente
+            </option>
+
             {% for cliente in clientes %}
                 <option value="{{ cliente.id_cliente }}">{{ cliente.nombre }}</option>
             {% endfor %}
         </select>
 
+
         <label>Servicio *</label>
         <select name="id_servicio" required>
+
+            <option value="" selected disabled>
+                Seleccione un servicio
+            </option>
+
             {% for servicio in servicios %}
                 <option value="{{ servicio.id_servicio }}">{{ servicio.nombre }}</option>
             {% endfor %}
         </select>
 
+
         <label>Negocio *</label>
         <select name="id_negocio" required>
+
+            <option value="" selected disabled>
+                Seleccione un negocio
+            </option>
+
             {% for negocio in negocios %}
                 <option value="{{ negocio.id_negocio }}">{{ negocio.nombre }}</option>
             {% endfor %}
         </select>
 
         <label>Fecha *</label>
-        <input type="date" name="fecha" required onkeydown="return false" onfocus="this.showPicker()" onclick="this.showPicker()">
+        <input 
+            type="date" 
+            name="fecha" 
+            min="{{ fecha_actual }}"
+            required 
+            onkeydown="return false" 
+            onfocus="this.showPicker()" 
+            onclick="this.showPicker()"
+        >
 
         <label>Hora *</label>
         <input type="time" name="hora" required onkeydown="return false" onfocus="this.showPicker()" onclick="this.showPicker()">

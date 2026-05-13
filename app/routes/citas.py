@@ -127,11 +127,14 @@ def nueva_cita():
     servicios = Servicio.query.all()
     negocios = Negocio.query.all()
 
+    fecha_actual = date.today().isoformat()
+
     return render_template(
         'citas/crear.html',
         clientes=clientes,
         servicios=servicios,
-        negocios=negocios
+        negocios=negocios,
+        fecha_actual=fecha_actual
     )
 
 
