@@ -2,7 +2,7 @@
     <h1>ScheduleControl</h1>
     <p class="subtitle">Sistema de gestión de turnos y citas</p>
 
-    {% if session.get('usuario_id') %}
+    {% if session.get('usuario_id') and request.endpoint not in ['citas.vista_agendar', 'citas.agendar_publico', 'citas.confirmacion_reserva'] %}
         <nav class="main-nav">
             <a href="{{ url_for('main.dashboard') }}">Inicio</a>
             <a href="{{ url_for('negocios.listar_negocios') }}">Negocios</a>
