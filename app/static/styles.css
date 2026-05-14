@@ -526,3 +526,51 @@ nav a.logout-link:hover {
     margin-bottom: 25px;
     font-size: 15px;
 }
+
+.horarios-container {
+    margin-top: 20px;
+}
+
+.horarios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.hora-card input {
+    display: none;
+}
+
+.hora-card span,
+.hora-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hora-card span:hover {
+    background-color: #f3f4f6;
+    border-color: #23466e;
+}
+
+.hora-card input:checked + span {
+    background-color: #23466e;
+    color: white;
+    border-color: #23466e;
+}
+
+.hora-btn.ocupada {
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
