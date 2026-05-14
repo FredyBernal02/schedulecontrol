@@ -18,7 +18,7 @@
         <input type="text" name="telefono" value="{{ request.args.get('telefono', '') }}" required>
 
         <label>Negocio *</label>
-        <select name="id_negocio" required onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'">
+        <select name="id_negocio" id="negocio-select" required onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'">
             <option value="">Selecciona un negocio</option>
             {% for negocio in negocios %}
             <option value="{{ negocio.id_negocio }}" {% if id_negocio and id_negocio|int == negocio.id_negocio %}selected{% endif %}>
@@ -28,10 +28,10 @@
         </select>
 
         <label>Servicio *</label>
-        <select name="id_servicio" required onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'">
+        <select name="id_servicio" id="servicio-select" required onchange="window.location=this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString()+'#hora-disponible'">
             <option value="">Selecciona un servicio</option>
             {% for servicio in servicios %}
-            <option value="{{ servicio.id_servicio }}" {% if id_servicio and id_servicio|int == servicio.id_servicio %}selected{% endif %}>
+            <option value="{{ servicio.id_servicio }}" data-negocio="{{ servicio.id_negocio }}" {% if id_servicio and id_servicio|int == servicio.id_servicio %}selected{% endif %}>
                 {{ servicio.nombre }}
             </option>
             {% endfor %}
@@ -61,4 +61,38 @@
         </div>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const negocioSelect = document.getElementById('negocio-select');
+    const servicioSelect = document.getElementById('servicio-select');
+
+    function filtrarServicios() {
+
+        const negocioSeleccionado = negocioSelect.value;
+
+        Array.from(servicioSelect.options).forEach(option => {
+
+            if (option.value === "") {
+                option.hidden = false;
+                return;
+            }
+
+            if (option.dataset.negocio === negocioSeleccionado) {
+                option.hidden = false;
+            } else {
+                option.hidden = true;
+            }
+
+        });
+
+    }
+
+    negocioSelect.addEventListener('change', filtrarServicios);
+
+    filtrarServicios();
+
+});
+</script>
 {% endblock %}
