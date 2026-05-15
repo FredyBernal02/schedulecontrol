@@ -2,6 +2,7 @@ from flask import Flask, session, redirect, url_for, request
 from app.extensions import db
 from app.routes.auth import auth_bp
 from app.routes.main import main_bp
+from app.models.usuario import Usuario
 
 def create_app():
     app = Flask(__name__)
@@ -33,5 +34,20 @@ def create_app():
 
         if 'usuario_id' not in session:
             return redirect(url_for('auth.login'))
+
+    with app.app_context():
+        db.create_all()
+
+        admin = Usuario.query.filter_by(correo="admin@test.com").first()
+
+        if not admin:
+            admin = Usuario(
+                nombre="Admin",
+                correo="admin@test.com",
+                contrasena="1234"
+            )
+
+            db.session.add(admin)
+            db.session.commit()
 
     return app
