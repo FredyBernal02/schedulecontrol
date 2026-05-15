@@ -2,7 +2,7 @@ from flask import Flask, session, redirect, url_for, request
 from app.extensions import db
 from app.routes.auth import auth_bp
 from app.routes.main import main_bp
-from app.models.usuario import Usuario
+from app.models.usuarios import Usuario
 
 def create_app():
     app = Flask(__name__)
