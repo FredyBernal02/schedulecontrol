@@ -3,6 +3,7 @@ from app.extensions import db
 from app.routes.auth import auth_bp
 from app.routes.main import main_bp
 from app.models.usuarios import Usuario
+from werkzeug.security import generate_password_hash
 
 def create_app():
     app = Flask(__name__)
@@ -44,7 +45,7 @@ def create_app():
             admin = Usuario(
                 nombre="Admin",
                 correo="admin@test.com",
-                contrasena="1234",
+                contrasena=generate_password_hash("1234"),
                 rol="admin",
                 id_negocio=1
             )
