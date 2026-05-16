@@ -44,7 +44,8 @@ def create_app():
             admin = Usuario(
                 nombre="Admin",
                 correo="admin@test.com",
-                contrasena="1234"
+                contrasena="1234",
+                rol="admin"
             )
 
             db.session.add(admin)
