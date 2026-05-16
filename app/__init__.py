@@ -45,7 +45,8 @@ def create_app():
                 nombre="Admin",
                 correo="admin@test.com",
                 contrasena="1234",
-                rol="admin"
+                rol="admin",
+                id_negocio=1
             )
 
             db.session.add(admin)
