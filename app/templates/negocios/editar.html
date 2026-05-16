@@ -18,6 +18,7 @@
         <select name="hora_apertura" required>
             {% for hora in horas %}
                 <option value="{{ hora }}" {% if hora_apertura == hora %}selected{% endif %}>
+                    {{ hora }}
                 </option>
             {% endfor %}
         </select>
@@ -26,6 +27,7 @@
         <select name="hora_cierre" required>
             {% for hora in horas %}
                 <option value="{{ hora }}" {% if hora_cierre == hora %}selected{% endif %}>
+                    {{ hora }}
                 </option>
             {% endfor %}
         </select>
