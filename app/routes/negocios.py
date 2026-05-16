@@ -102,9 +102,12 @@ def editar_negocio(id_negocio):
     hora_apertura = negocio.hora_apertura.strftime('%H:%M')
     hora_cierre = negocio.hora_cierre.strftime('%H:%M')
 
+    horas = [f"{h:02d}:00" for h in range(0, 24)]
+
     return render_template(
         'negocios/editar.html',
         negocio=negocio,
+        horas=horas,
         hora_apertura=hora_apertura,
         hora_cierre=hora_cierre
     )

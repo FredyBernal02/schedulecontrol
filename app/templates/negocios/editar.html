@@ -17,18 +17,14 @@
         <label>Hora apertura *</label>
         <select name="hora_apertura" required>
             {% for hora in horas %}
-                <option value="{{ hora }}" {% if negocio.hora_apertura.strftime('%H:%M') == hora %}selected{% endif %}>
-                    {{ hora }}
-                </option>
+                <option value="{{ hora }}" {% if hora_apertura == hora %}selected{% endif %}>
             {% endfor %}
         </select>
 
         <label>Hora cierre *</label>
         <select name="hora_cierre" required>
             {% for hora in horas %}
-                <option value="{{ hora }}" {% if negocio.hora_cierre.strftime('%H:%M') == hora %}selected{% endif %}>
-                    {{ hora }}
-                </option>
+                <option value="{{ hora }}" {% if hora_cierre == hora %}selected{% endif %}>
             {% endfor %}
         </select>
 
