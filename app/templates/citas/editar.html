@@ -1,56 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Editar cita</h2>
+<div class="form-card">
+    <h2>Editar cita</h2>
 
-<form method="POST" action="/citas/{{ cita.id_cita }}/editar">
+    <form method="POST" class="form">
+        <label>Cliente</label>
+        <select name="id_cliente" required>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id_cliente }}" {% if cliente.id_cliente == cita.id_cliente %}selected{% endif %}>
+                    {{ cliente.nombre }}
+                </option>
+            {% endfor %}
+        </select>
 
-    <label>Cliente</label>
-    <select name="id_cliente">
-        {% for cliente in clientes %}
-            <option value="{{ cliente.id_cliente }}"
-            {% if cliente.id_cliente == cita.id_cliente %}selected{% endif %}>
-                {{ cliente.nombre }}
-            </option>
-        {% endfor %}
-    </select>
+        <label>Servicio</label>
+        <select name="id_servicio" required>
+            {% for servicio in servicios %}
+                <option value="{{ servicio.id_servicio }}" {% if servicio.id_servicio == cita.id_servicio %}selected{% endif %}>
+                    {{ servicio.nombre }}
+                </option>
+            {% endfor %}
+        </select>
 
-    <label>Servicio</label>
-    <select name="id_servicio">
-        {% for servicio in servicios %}
-            <option value="{{ servicio.id_servicio }}"
-            {% if servicio.id_servicio == cita.id_servicio %}selected{% endif %}>
-                {{ servicio.nombre }}
-            </option>
-        {% endfor %}
-    </select>
+        <label>Negocio</label>
+        <select name="id_negocio" required>
+            {% for negocio in negocios %}
+                <option value="{{ negocio.id_negocio }}" {% if negocio.id_negocio == cita.id_negocio %}selected{% endif %}>
+                    {{ negocio.nombre }}
+                </option>
+            {% endfor %}
+        </select>
 
-    <label>Negocio</label>
-    <select name="id_negocio">
-        {% for negocio in negocios %}
-            <option value="{{ negocio.id_negocio }}"
-            {% if negocio.id_negocio == cita.id_negocio %}selected{% endif %}>
-                {{ negocio.nombre }}
-            </option>
-        {% endfor %}
-    </select>
+        <label>Fecha</label>
+        <input type="date" name="fecha" value="{{ cita.fecha }}" required>
 
-    <label>Fecha</label>
-    <input type="date" name="fecha" value="{{ cita.fecha }}" required
-    onkeydown="return false"
-    onfocus="this.showPicker()"
-    onclick="this.showPicker()">
+        <label>Hora</label>
+        <input type="time" name="hora" value="{{ cita.hora_inicio.strftime('%H:%M') }}" required>
 
-    <label>Hora</label>
-    <input type="time" name="hora" value="{{ cita.hora_inicio }}" required
-    onkeydown="return false"
-    onfocus="this.showPicker()"
-    onclick="this.showPicker()">
-
-    <br><br>
-
-    <button type="submit" class="btn-primary">Guardar cambios</button>
-    <a href="/citas/listar" class="btn-secondary">Cancelar</a>
-
-</form>
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Guardar cambios</button>
+            <a href="{{ url_for('citas.listar_citas') }}" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
