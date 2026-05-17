@@ -127,16 +127,55 @@ def nueva_cita():
     servicios = Servicio.query.all()
     negocios = Negocio.query.all()
 
+    id_cliente = request.args.get('id_cliente')
+    id_negocio = request.args.get('id_negocio')
+    id_servicio = request.args.get('id_servicio')
+    fecha = request.args.get('fecha')
+
     fecha_actual = date.today().isoformat()
+    horas_disponibles = []
+
+    if id_negocio and id_servicio and fecha:
+        negocio = Negocio.query.get(int(id_negocio))
+        servicio = Servicio.query.get(int(id_servicio))
+        fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+
+        hora_actual = datetime.combine(fecha_obj, negocio.hora_apertura)
+        hora_cierre = datetime.combine(fecha_obj, negocio.hora_cierre)
+
+        citas_existentes = Cita.query.filter(
+            Cita.id_negocio == int(id_negocio),
+            Cita.fecha == fecha_obj
+        ).all()
+
+        while hora_actual + timedelta(minutes=servicio.duracion) <= hora_cierre:
+            hora_fin_posible = hora_actual + timedelta(minutes=servicio.duracion)
+
+            esta_ocupada = False
+
+            for cita in citas_existentes:
+                if hora_actual.time() < cita.hora_fin and hora_fin_posible.time() > cita.hora_inicio:
+                    esta_ocupada = True
+
+            horas_disponibles.append({
+                "hora": hora_actual.strftime('%H:%M'),
+                "ocupada": esta_ocupada
+            })
+
+            hora_actual += timedelta(minutes=30)
 
     return render_template(
         'citas/crear.html',
         clientes=clientes,
         servicios=servicios,
         negocios=negocios,
-        fecha_actual=fecha_actual
+        fecha_actual=fecha_actual,
+        horas_disponibles=horas_disponibles,
+        id_cliente=id_cliente,
+        id_negocio=id_negocio,
+        id_servicio=id_servicio,
+        fecha=fecha
     )
-
 
 @citas_bp.route('/citas/nuevo', methods=['POST'])
 def crear_cita_front():
